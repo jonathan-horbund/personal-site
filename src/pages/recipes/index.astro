@@ -1,0 +1,119 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allRecipes = await getCollection('recipes');
+const sorted = allRecipes.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const allCategories = [...new Set(sorted.map(r => r.data.category))].sort();
+const difficulties = ['Easy', 'Medium', 'Hard'];
+
+const difficultyColor: Record<string, string> = {
+  Easy: 'var(--color-forest)',
+  Medium: 'var(--color-terracotta)',
+  Hard: '#8b3e2f',
+};
+---
+
+<Layout title="Recipes" description="Recipes from Jonathan Horbund's kitchen — soups, bakes, mains, and everything in between.">
+  <section style="padding: 4rem 1.5rem 5rem;">
+    <div class="page-width">
+      <!-- Header -->
+      <div style="max-width: 600px; margin-bottom: 3rem;">
+        <h1 class="fade-in fade-in-1" style="font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 1rem;">Recipes</h1>
+        <p class="fade-in fade-in-2" style="color: var(--color-warm-muted); font-size: 1.05rem; margin: 0; line-height: 1.7;">
+          Things I cook for people I care about. Nothing too precious — just good food made with intention.
+        </p>
+      </div>
+
+      <!-- Filters -->
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--color-warm-muted); font-weight: 500; margin-right: 0.25rem;">Category:</span>
+        <button data-filter="category" data-value="all" class="filter-btn active" style="font-size: 0.78rem; font-weight: 500; padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--color-terracotta); background: var(--color-terracotta); color: white; cursor: pointer; transition: all 0.2s;">All</button>
+        {allCategories.map(cat => (
+          <button data-filter="category" data-value={cat} class="filter-btn" style="font-size: 0.78rem; font-weight: 500; padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--color-sand); background: transparent; color: var(--color-warm-muted); cursor: pointer; transition: all 0.2s;">{cat}</button>
+        ))}
+        <span style="width: 1px; height: 20px; background: var(--color-sand); margin: 0 0.5rem;"></span>
+        <span style="font-size: 0.8rem; color: var(--color-warm-muted); font-weight: 500; margin-right: 0.25rem;">Difficulty:</span>
+        {difficulties.map(d => (
+          <button data-filter="difficulty" data-value={d} class="filter-btn" style="font-size: 0.78rem; font-weight: 500; padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--color-sand); background: transparent; color: var(--color-warm-muted); cursor: pointer; transition: all 0.2s;">{d}</button>
+        ))}
+      </div>
+
+      <!-- Recipe cards — index card style -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem;" id="recipes-grid">
+        {sorted.map(recipe => (
+          <a
+            href={`/recipes/${recipe.id}`}
+            class="recipe-card card-hover"
+            data-category={recipe.data.category}
+            data-difficulty={recipe.data.difficulty}
+            style="display: flex; flex-direction: column; text-decoration: none; background-color: #fffaf4; border: 1px solid var(--color-sand); border-radius: 8px; box-shadow: 2px 3px 8px rgba(44,44,44,0.07); overflow: hidden;"
+          >
+            <!-- Card top stripe -->
+            <div style="height: 6px; background-color: var(--color-terracotta);"></div>
+            <div style="padding: 1.5rem;">
+              <!-- Category tag -->
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem;">
+                <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-terracotta);">
+                  {recipe.data.category}
+                </span>
+                <span style={`font-size: 0.7rem; font-weight: 600; color: ${difficultyColor[recipe.data.difficulty]};`}>
+                  {recipe.data.difficulty}
+                </span>
+              </div>
+              <h2 style="font-size: 1.1rem; margin: 0 0 0.75rem; line-height: 1.3; color: var(--color-charcoal);">{recipe.data.title}</h2>
+              <div style="display: flex; gap: 1rem; margin-top: auto; padding-top: 0.5rem; border-top: 1px dashed rgba(107, 90, 74, 0.2);">
+                <span style="font-size: 0.78rem; color: var(--color-warm-muted);">⏱ {recipe.data.prepTime} prep</span>
+                <span style="font-size: 0.78rem; color: var(--color-warm-muted);">🍽 Serves {recipe.data.serves}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .recipe-card:hover h2 { color: var(--color-terracotta) !important; }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.recipe-card');
+
+  let activeCategory = 'all';
+  let activeDifficulty = 'all';
+
+  function applyFilters() {
+    cards.forEach(card => {
+      const catMatch = activeCategory === 'all' || card.dataset.category === activeCategory;
+      const diffMatch = activeDifficulty === 'all' || card.dataset.difficulty === activeDifficulty;
+      card.style.display = (catMatch && diffMatch) ? 'flex' : 'none';
+    });
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filterType = btn.dataset.filter;
+      const value = btn.dataset.value ?? 'all';
+
+      // Update state
+      if (filterType === 'category') activeCategory = value;
+      if (filterType === 'difficulty') {
+        activeDifficulty = activeDifficulty === value ? 'all' : value;
+      }
+
+      // Update button styles for this group
+      document.querySelectorAll<HTMLButtonElement>(`.filter-btn[data-filter="${filterType}"]`).forEach(b => {
+        const isActive = b.dataset.value === (filterType === 'category' ? activeCategory : activeDifficulty);
+        b.style.backgroundColor = isActive ? 'var(--color-terracotta)' : 'transparent';
+        b.style.borderColor = isActive ? 'var(--color-terracotta)' : 'var(--color-sand)';
+        b.style.color = isActive ? 'white' : 'var(--color-warm-muted)';
+      });
+
+      applyFilters();
+    });
+  });
+</script>

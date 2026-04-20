@@ -1,0 +1,52 @@
+---
+title: "Redesigning Card Onboarding"
+description: "How we reduced friction in the credit card application flow and increased approval completion rates by identifying key drop-off points through discovery."
+tags: ["FinTech", "Discovery", "Strategy"]
+date: 2024-03-15
+featured: true
+role: "Senior Product Manager"
+timeline: "Q1–Q2 2024 · 6 months"
+tldr: "Identified three key friction points in the credit card onboarding flow that were causing applicants to abandon before completion. Through usability research, data analysis, and iterative prototyping, we redesigned the experience — leading to a meaningful lift in completion rates."
+---
+
+## Problem
+
+Credit card applicants were dropping off at an unusually high rate during identity verification — a step that should feel like a formality but instead felt like a wall.
+
+The business felt the impact in lost revenue. Customers felt it as frustration. Our job was to understand why, and fix it without compromising compliance requirements.
+
+## Approach
+
+We started by pulling data. Where exactly were people leaving? How long were they spending on each step? Were there patterns by device, channel, or customer segment?
+
+Then we talked to people. 12 usability sessions, a mix of completed and abandoned applications. We discovered three distinct problems:
+
+1. **Language mismatch** — legal copy was written for compliance, not humans
+2. **Progress invisibility** — applicants didn't know how many steps remained
+3. **Recovery friction** — errors during document upload were opaque and hard to fix
+
+## Process
+
+We ran two rounds of prototype testing, iterating on each finding:
+
+- Rewrote verification step copy in plain language, reviewed by compliance
+- Added a visible progress bar with step labels
+- Redesigned error states to include specific guidance and retry affordances
+
+Each prototype was tested against the prior version before shipping.
+
+## Outcome
+
+import Callout from '../../components/Callout.astro';
+
+<Callout type="metric">
+  ↑ 28% completion rate on the identity verification step
+</Callout>
+
+<Callout type="metric">
+  ↓ 40% reduction in customer service contacts related to onboarding
+</Callout>
+
+The redesigned flow shipped to 100% of traffic over four weeks. It became the internal template for plain-language rewrites across other application flows.
+
+> "This is what it looks like when PM, design, and compliance actually work together." — Director of Product

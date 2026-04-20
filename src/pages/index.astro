@@ -1,0 +1,245 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allWork = await getCollection('work');
+const featuredWork = allWork
+  .filter(w => w.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const allWriting = await getCollection('writing');
+const latestWriting = allWriting
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title="Jonathan Horbund" description="PM at Capital One. Volunteer cook. Believer in products and people.">
+
+  <!-- Hero -->
+  <section style="padding: 5rem 1.5rem 4rem;">
+    <div class="page-width">
+      <div class="hero-grid">
+        <!-- Text side -->
+        <div style="max-width: 600px;">
+          <h1 class="fade-in fade-in-1" style="font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; margin: 0 0 1rem; color: var(--color-charcoal);">
+            Jonathan Horbund
+          </h1>
+          <p class="fade-in fade-in-2" style="font-family: 'Playfair Display', serif; font-size: clamp(1.25rem, 3vw, 1.75rem); font-style: italic; color: var(--color-terracotta); margin: 0 0 1.5rem;">
+            "Building bigger tables."
+          </p>
+          <p class="fade-in fade-in-3" style="font-size: 1.125rem; color: var(--color-warm-muted); margin: 0 0 2.5rem; line-height: 1.65;">
+            PM at Capital One. Volunteer cook. Believer in products and people.
+          </p>
+          <div class="fade-in fade-in-4" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="/work" class="btn-primary">
+              See my work
+            </a>
+            <a href="/about" class="btn-secondary">
+              Learn more
+            </a>
+          </div>
+        </div>
+
+        <!-- Photo side -->
+        <!-- Replace this placeholder with an <img> tag once you upload IMG_5719.jpeg to /public/images/ -->
+        <div class="fade-in fade-in-5 hero-photo-wrap">
+          <div class="hero-photo-box">
+            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; color: var(--color-warm-muted);">
+              <div style="width: 72px; height: 72px; border-radius: 50%; background-color: var(--color-terracotta); opacity: 0.35; margin: 0 auto 1.25rem;"></div>
+              <p style="font-size: 0.8rem; margin: 0; font-weight: 500;">Photo coming soon</p>
+              <p style="font-size: 0.72rem; margin: 0.25rem 0 0; opacity: 0.7;">Add IMG_5719.jpeg to /public/images/</p>
+            </div>
+          </div>
+          <div class="hero-photo-deco"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Highlights -->
+  <section style="padding: 4rem 1.5rem; background-color: white;">
+    <div class="page-width">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="font-size: 2rem; margin: 0;">Work</h2>
+        <a href="/work" style="font-size: 0.9rem; color: var(--color-terracotta); font-weight: 500;">View all →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        {featuredWork.map((item) => (
+          <article
+            class="card-hover"
+            style="background-color: var(--color-cream); border: 1px solid var(--color-sand); border-radius: 10px; padding: 1.75rem; display: flex; flex-direction: column;"
+          >
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+              {item.data.tags.map((tag) => (
+                <span style="font-size: 0.75rem; font-weight: 500; background-color: var(--color-sand); color: var(--color-warm-muted); padding: 0.25rem 0.625rem; border-radius: 20px;">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <h3 style="font-size: 1.2rem; margin: 0 0 0.75rem; line-height: 1.3;">{item.data.title}</h3>
+            <p style="color: var(--color-warm-muted); font-size: 0.9rem; margin: 0 0 1.5rem; flex: 1; line-height: 1.6;">{item.data.description}</p>
+            <a href={`/work/${item.id}`} style="font-size: 0.875rem; font-weight: 500; color: var(--color-terracotta); text-decoration: none;">
+              Read more →
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- The Other Side -->
+  <section style="padding: 4rem 1.5rem;">
+    <div class="page-width">
+      <p style="color: var(--color-warm-muted); font-style: italic; margin: 0 0 2rem; font-size: 1.05rem;">
+        When I'm not in a product review, I'm probably in a kitchen.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+        {[
+          { href: '/recipes', icon: 'R', label: 'Recipes', desc: 'What I cook when the week feels hard or joyful.' },
+          { href: '/bookshelf', icon: 'B', label: 'Bookshelf', desc: 'What I am reading, finished, and won\'t stop recommending.' },
+          { href: '/volunteering', icon: 'V', label: 'Volunteering', desc: 'Kitchen volunteer work and the causes I show up for.' },
+        ].map((tile) => (
+          <a
+            href={tile.href}
+            class="card-hover other-side-tile"
+            style="display: block; background-color: var(--color-sand); border-radius: 10px; padding: 2rem 1.75rem; text-decoration: none; color: var(--color-charcoal);"
+          >
+            <span style="display: block; width: 40px; height: 40px; border-radius: 8px; background-color: var(--color-terracotta); color: white; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; line-height: 40px; text-align: center; margin-bottom: 1rem;">{tile.icon}</span>
+            <h3 style="font-size: 1.15rem; margin: 0 0 0.5rem;">{tile.label}</h3>
+            <p style="font-size: 0.875rem; color: var(--color-warm-muted); margin: 0; line-height: 1.5;">{tile.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Writing -->
+  <section style="padding: 4rem 1.5rem; background-color: white;">
+    <div class="page-width">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="font-size: 2rem; margin: 0;">Writing</h2>
+        <a href="/writing" style="font-size: 0.9rem; color: var(--color-terracotta); font-weight: 500;">All posts →</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {latestWriting.map((post) => (
+          <article style="border-bottom: 1px solid var(--color-sand); padding-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+              <time style="font-size: 0.8rem; color: var(--color-warm-muted);" datetime={post.data.date.toISOString()}>
+                {formatDate(post.data.date)}
+              </time>
+              <div style="display: flex; gap: 0.5rem;">
+                {post.data.tags.slice(0, 2).map((tag) => (
+                  <span style="font-size: 0.7rem; background-color: rgba(74, 124, 89, 0.15); color: var(--color-forest); padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 500;">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <h3 style="font-size: 1.15rem; margin: 0 0 0.5rem;">
+              <a href={`/writing/${post.id}`} class="post-link" style="color: var(--color-charcoal); text-decoration: none;">
+                {post.data.title}
+              </a>
+            </h3>
+            <p style="color: var(--color-warm-muted); font-size: 0.9rem; margin: 0; line-height: 1.6;">
+              {post.data.excerpt || post.data.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero-photo-wrap {
+      justify-content: flex-end !important;
+    }
+  }
+
+  .hero-photo-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-photo-box {
+    position: relative;
+    width: 320px;
+    max-width: 100%;
+    padding-bottom: 125%;
+    background-color: var(--color-sand);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .hero-photo-deco {
+    position: absolute;
+    bottom: -12px;
+    right: -12px;
+    width: 80px;
+    height: 80px;
+    background-color: var(--color-forest);
+    border-radius: 8px;
+    z-index: -1;
+    opacity: 0.4;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background-color: var(--color-terracotta);
+    color: white;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-warm-muted);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    border: 2px solid var(--color-terracotta);
+    color: var(--color-terracotta);
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-terracotta);
+    color: white;
+  }
+
+  .post-link:hover {
+    color: var(--color-terracotta) !important;
+  }
+
+  .other-side-tile:hover h3 {
+    color: var(--color-terracotta);
+  }
+</style>

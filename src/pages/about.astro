@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About" description="The full story — PM at Capital One, volunteer cook, and believer in building bigger tables.">
+  <article style="padding: 4rem 1.5rem 5rem;">
+    <div class="content-width">
+
+      <!-- Intro -->
+      <h1 class="fade-in fade-in-1" style="font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 1.5rem;">About</h1>
+
+      <div class="fade-in fade-in-2" style="background-color: var(--color-sand); border-radius: 10px; padding: 2rem; margin-bottom: 3rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background-color: var(--color-terracotta); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <span style="font-family: 'Playfair Display', serif; font-weight: 700; color: white; font-size: 1.75rem;">JH</span>
+        </div>
+        <div>
+          <h2 style="font-size: 1.2rem; margin: 0 0 0.25rem;">Jonathan Horbund</h2>
+          <p style="font-size: 0.9rem; color: var(--color-warm-muted); margin: 0;">PM at Capital One · Washington, D.C.</p>
+        </div>
+      </div>
+
+      <!-- Intro paragraph -->
+      <div class="fade-in fade-in-3 about-prose">
+        <p>
+          I'm a Product Manager at Capital One, where I work on consumer financial products. Most of my day is spent at the intersection of what customers need, what the business is trying to accomplish, and what the team can actually build — which is to say, I spend a lot of time in rooms with whiteboards and a lot of time re-reading user research.
+        </p>
+        <p>
+          I love the job. I also know it's not the whole picture.
+        </p>
+
+        <h2>Professional</h2>
+        <p>
+          I've been in product for several years, with a focus on FinTech and consumer experience. At Capital One, I've worked on credit card applications, spending analytics, and a handful of zero-to-one bets that taught me more about product than any job description could. I tend to gravitate toward discovery work — the uncomfortable, ambiguous early phase where you're not sure if there's even a problem worth solving.
+        </p>
+        <p>
+          My PM philosophy, as briefly as I can state it: <strong>ship things that make people's lives genuinely better, and have the intellectual honesty to know when you haven't done that yet.</strong> The second part is harder.
+        </p>
+
+        <h2>Personal</h2>
+        <p>
+          Outside of work, I volunteer in professional kitchens. I started doing this a few years ago and it fundamentally changed how I think about craft, systems, and service. Kitchens are unforgiving about quality, obsessive about process, and organized entirely around the needs of the person eating — not the person cooking. Product teams could learn something from that.
+        </p>
+        <p>
+          I'm a huge admirer of José Andrés and the work of World Central Kitchen. The idea that food is a form of care, and that showing up with something warm is a form of policy — that resonates with me deeply. The tagline on this site, "Building bigger tables," comes from that ethos.
+        </p>
+
+        <h2>A few other things</h2>
+        <ul>
+          <li>I have strong opinions about the correct ratio of coffee to water and I will share them unprompted</li>
+          <li>I believe the single most underrated kitchen skill is knife maintenance, not knife technique</li>
+          <li>I read on paper whenever I can and keep a running note of passages I want to remember</li>
+          <li>I've learned more about teamwork from kitchen brigades than from any leadership training I've attended</li>
+          <li>Salt, Fat, Acid, Heat by Samin Nosrat is the best thing I've read about how frameworks actually work — and it's ostensibly a cookbook</li>
+        </ul>
+
+        <h2>Connect</h2>
+        <p>
+          The best way to reach me is on <a href="https://www.linkedin.com/in/jonathanhorbund" target="_blank" rel="noopener noreferrer">LinkedIn</a>. I'm happy to talk about product management, career development, volunteering, or what I'm currently cooking.
+        </p>
+      </div>
+
+      <!-- LinkedIn CTA -->
+      <div class="fade-in fade-in-4" style="margin-top: 3rem; padding: 2rem; background-color: var(--color-cream); border: 1px solid var(--color-sand); border-radius: 10px; text-align: center;">
+        <p style="margin: 0 0 1rem; color: var(--color-warm-muted); font-size: 0.95rem;">Let's connect</p>
+        <a
+          href="https://www.linkedin.com/in/jonathanhorbund"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="display: inline-flex; align-items: center; gap: 0.5rem; background-color: #0A66C2; color: white; padding: 0.7rem 1.5rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: opacity 0.2s;"
+          class="linkedin-btn"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          Find me on LinkedIn
+        </a>
+      </div>
+
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .linkedin-btn:hover { opacity: 0.85; }
+
+  .about-prose :global(h2) {
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-sand);
+  }
+  .about-prose p {
+    color: var(--color-charcoal);
+    line-height: 1.8;
+    margin: 0 0 1.25rem;
+    font-size: 1rem;
+  }
+  .about-prose ul {
+    padding-left: 1.5rem;
+    margin: 0 0 1.25rem;
+  }
+  .about-prose li {
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+    color: var(--color-charcoal);
+    font-size: 1rem;
+  }
+  .about-prose strong {
+    color: var(--color-charcoal);
+    font-weight: 600;
+  }
+  .about-prose a {
+    color: var(--color-terracotta);
+  }
+</style>

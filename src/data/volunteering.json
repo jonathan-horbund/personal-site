@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "organization": "World Central Kitchen",
+    "role": "Kitchen Volunteer",
+    "description": "Assisted in food preparation and service during disaster relief operations. Prep work, cooking, plating, and service. WCK's approach — show up with food first, ask questions second — is something I try to bring into every room I work in.",
+    "timeframe": "2022 – Present",
+    "location": "Washington, D.C."
+  },
+  {
+    "id": 2,
+    "organization": "DC Central Kitchen",
+    "role": "Culinary Volunteer",
+    "description": "Weekly prep shifts supporting meal production for social service organizations across the District. Knife work, batch cooking, portioning. Also participated in their job training graduation ceremony as a guest mentor.",
+    "timeframe": "2021 – 2023",
+    "location": "Washington, D.C."
+  },
+  {
+    "id": 3,
+    "organization": "Capital Area Food Bank",
+    "role": "Volunteer & Food Drive Organizer",
+    "description": "Organized internal food drives at Capital One, coordinating collection and delivery. Also volunteered at the food bank sorting and packing donations during peak need periods.",
+    "timeframe": "2020 – Present",
+    "location": "Washington, D.C. Metro Area"
+  },
+  {
+    "id": 4,
+    "organization": "Martha's Table",
+    "role": "Community Kitchen Volunteer",
+    "description": "Supported weekly community meal service — prep, service, and cleanup. Martha's Table's model of radical welcome is the best operational example of 'building a bigger table' I've seen up close.",
+    "timeframe": "2023 – Present",
+    "location": "Washington, D.C."
+  }
+]

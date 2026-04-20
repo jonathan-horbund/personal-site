@@ -1,0 +1,123 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('writing');
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const allPosts = await getCollection('writing');
+const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const currentIdx = sorted.findIndex(p => p.id === entry.id);
+const prev = currentIdx < sorted.length - 1 ? sorted[currentIdx + 1] : null;
+const next = currentIdx > 0 ? sorted[currentIdx - 1] : null;
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function readingTime(body: string) {
+  return Math.max(1, Math.round(body.split(/\s+/).length / 200));
+}
+---
+
+<Layout title={entry.data.title} description={entry.data.description}>
+  <article>
+    <!-- Header -->
+    <header style="padding: 3.5rem 1.5rem 2rem;">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <a href="/writing" style="font-size: 0.85rem; color: var(--color-warm-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1.75rem; transition: color 0.2s;" class="back-link">
+          ← All writing
+        </a>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <time style="font-size: 0.85rem; color: var(--color-warm-muted);" datetime={entry.data.date.toISOString()}>
+            {formatDate(entry.data.date)}
+          </time>
+          <span style="color: var(--color-warm-muted); font-size: 0.85rem;">·</span>
+          <span style="font-size: 0.85rem; color: var(--color-warm-muted);">{readingTime(entry.body ?? '')} min read</span>
+        </div>
+        <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); margin: 0 0 1rem; line-height: 1.15;">{entry.data.title}</h1>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+          {entry.data.tags.map(tag => (
+            <span style="font-size: 0.72rem; font-weight: 600; background-color: rgba(74, 124, 89, 0.12); color: var(--color-forest); padding: 0.25rem 0.625rem; border-radius: 20px;">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div style="padding: 0 1.5rem 4rem;">
+      <div style="max-width: 680px; margin: 0 auto;" class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <!-- Author bio -->
+    <div style="border-top: 1px solid var(--color-sand); padding: 2rem 1.5rem;">
+      <div style="max-width: 680px; margin: 0 auto; display: flex; align-items: flex-start; gap: 1.25rem;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background-color: var(--color-sand); flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+          <span style="font-family: 'Playfair Display', serif; font-weight: 700; color: var(--color-warm-muted); font-size: 1.1rem;">JH</span>
+        </div>
+        <div>
+          <p style="font-weight: 600; margin: 0 0 0.25rem; font-size: 0.9rem;">Jonathan Horbund</p>
+          <p style="font-size: 0.85rem; color: var(--color-warm-muted); margin: 0; line-height: 1.6;">
+            PM at Capital One. Volunteer cook. Find me on <a href="https://www.linkedin.com/in/jonathanhorbund" target="_blank" rel="noopener noreferrer" style="color: var(--color-terracotta);">LinkedIn</a> or read more on the <a href="/about" style="color: var(--color-terracotta);">about page</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav style="border-top: 1px solid var(--color-sand); padding: 2rem 1.5rem;" aria-label="Post navigation">
+      <div style="max-width: 680px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          {prev && (
+            <a href={`/writing/${prev.id}`} style="display: block; text-decoration: none; padding: 1rem; border-radius: 8px; border: 1px solid var(--color-sand); transition: border-color 0.2s;" class="nav-card">
+              <p style="font-size: 0.75rem; color: var(--color-warm-muted); margin: 0 0 0.25rem;">← Older</p>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--color-charcoal); margin: 0; line-height: 1.3;">{prev.data.title}</p>
+            </a>
+          )}
+        </div>
+        <div style="text-align: right;">
+          {next && (
+            <a href={`/writing/${next.id}`} style="display: block; text-decoration: none; padding: 1rem; border-radius: 8px; border: 1px solid var(--color-sand); transition: border-color 0.2s;" class="nav-card">
+              <p style="font-size: 0.75rem; color: var(--color-warm-muted); margin: 0 0 0.25rem;">Newer →</p>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--color-charcoal); margin: 0; line-height: 1.3;">{next.data.title}</p>
+            </a>
+          )}
+        </div>
+      </div>
+    </nav>
+  </article>
+</Layout>
+
+<style>
+  .back-link:hover { color: var(--color-terracotta) !important; }
+  .nav-card:hover { border-color: var(--color-terracotta) !important; }
+
+  .prose :global(h2) { font-size: 1.4rem; margin: 2.5rem 0 1rem; }
+  .prose :global(h3) { font-size: 1.1rem; margin: 2rem 0 0.75rem; }
+  .prose :global(p) { color: var(--color-charcoal); line-height: 1.8; margin: 0 0 1.4rem; }
+  .prose :global(ul), .prose :global(ol) { padding-left: 1.5rem; margin: 0 0 1.25rem; }
+  .prose :global(li) { line-height: 1.7; margin-bottom: 0.5rem; color: var(--color-charcoal); }
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--color-terracotta);
+    padding-left: 1.25rem;
+    margin: 1.75rem 0;
+    font-style: italic;
+    color: var(--color-warm-muted);
+    font-size: 1.05rem;
+  }
+  .prose :global(strong) { font-weight: 600; }
+  .prose :global(hr) { border: none; border-top: 1px solid var(--color-sand); margin: 2.5rem 0; }
+  .prose :global(a) { color: var(--color-terracotta); }
+</style>

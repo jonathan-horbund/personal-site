@@ -1,0 +1,31 @@
+---
+interface Props {
+  type?: 'metric' | 'quote' | 'note';
+}
+
+const { type = 'note' } = Astro.props;
+
+const styles = {
+  metric: {
+    bg: 'rgba(201, 125, 78, 0.08)',
+    border: 'var(--color-terracotta)',
+    label: '',
+  },
+  quote: {
+    bg: 'rgba(74, 124, 89, 0.07)',
+    border: 'var(--color-forest)',
+    label: '',
+  },
+  note: {
+    bg: 'rgba(232, 201, 160, 0.3)',
+    border: 'var(--color-sand)',
+    label: '',
+  },
+};
+
+const s = styles[type];
+---
+
+<div style={`background-color: ${s.bg}; border-left: 3px solid ${s.border}; border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1.75rem 0; font-size: ${type === 'metric' ? '1.1rem' : '1rem'}; font-weight: ${type === 'metric' ? '600' : '400'};`}>
+  <slot />
+</div>

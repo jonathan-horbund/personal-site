@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "title": "Kitchen Confidential",
+    "author": "Anthony Bourdain",
+    "yearRead": 2019,
+    "tags": ["Food", "Memoir"],
+    "status": "Finished",
+    "note": "Changed how I think about kitchens and honesty. Bourdain's voice is completely uncompromising. Required reading for anyone who's ever worked a dinner service or just wants to understand what it actually takes."
+  },
+  {
+    "id": 2,
+    "title": "Inspired: How to Create Tech Products Customers Love",
+    "author": "Marty Cagan",
+    "yearRead": 2021,
+    "tags": ["Product & Business"],
+    "status": "Finished",
+    "note": "The canonical PM text. I re-read chapters of this regularly. 'Discovery' as a formal concept changed how I structure my work."
+  },
+  {
+    "id": 3,
+    "title": "We Fed an Island",
+    "author": "José Andrés",
+    "yearRead": 2022,
+    "tags": ["Food", "Non-fiction"],
+    "status": "Finished",
+    "note": "The story of World Central Kitchen's response to Hurricane Maria in Puerto Rico. Operational excellence meets radical generosity. Genuinely moved me."
+  },
+  {
+    "id": 4,
+    "title": "The Mom Test",
+    "author": "Rob Fitzpatrick",
+    "yearRead": 2022,
+    "tags": ["Product & Business"],
+    "status": "Finished",
+    "note": "Short, practical, and should be mandatory before anyone runs a user interview. The title is annoying. The content is excellent."
+  },
+  {
+    "id": 5,
+    "title": "Salt, Fat, Acid, Heat",
+    "author": "Samin Nosrat",
+    "yearRead": 2023,
+    "tags": ["Food"],
+    "status": "Finished",
+    "note": "Not a recipe book — a thinking framework for cooking. The four elements aren't a checklist, they're a lens. Applying frameworks like this is the whole game, in kitchens and in product."
+  },
+  {
+    "id": 6,
+    "title": "Thinking in Systems",
+    "author": "Donella H. Meadows",
+    "yearRead": 2023,
+    "tags": ["Non-fiction", "Product & Business"],
+    "status": "Finished",
+    "note": "Dense but worth every page. Once you see systems, you can't unsee them. I reference the concept of 'leverage points' constantly."
+  },
+  {
+    "id": 7,
+    "title": "Parable of the Sower",
+    "author": "Octavia E. Butler",
+    "yearRead": 2024,
+    "tags": ["Fiction"],
+    "status": "Finished",
+    "note": "Haunting and visionary. Butler wrote this in 1993 and it reads like dispatches from the near future. A masterclass in world-building and character resilience."
+  },
+  {
+    "id": 8,
+    "title": "An Everlasting Meal",
+    "author": "Tamar Adler",
+    "yearRead": 2024,
+    "tags": ["Food"],
+    "status": "Finished",
+    "note": "Reads more like a philosophy than a cookbook. About making something from whatever you have left. The chapter on eggs alone is worth the whole book."
+  },
+  {
+    "id": 9,
+    "title": "The Hard Thing About Hard Things",
+    "author": "Ben Horowitz",
+    "yearRead": 2020,
+    "tags": ["Product & Business"],
+    "status": "Finished",
+    "note": "Refreshingly unoptimistic compared to most business books. The section on peacetime vs. wartime CEOs maps surprisingly well to different PM contexts."
+  },
+  {
+    "id": 10,
+    "title": "How to Change Your Mind",
+    "author": "Michael Pollan",
+    "yearRead": 2024,
+    "tags": ["Non-fiction"],
+    "status": "Currently Reading",
+    "note": "Fascinating look at the science and culture of psychedelics. Pollan is one of the best non-fiction writers working. I'm reading this slowly on purpose."
+  }
+]

@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('writing');
+const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const allTags = [...new Set(sorted.flatMap(p => p.data.tags))].sort();
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function readingTime(body: string) {
+  const words = body.split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+---
+
+<Layout title="Writing" description="Essays and notes on product management, food, community, and whatever's on my mind.">
+  <section style="padding: 4rem 1.5rem 5rem;">
+    <div class="page-width" style="max-width: 760px; margin: 0 auto;">
+      <h1 class="fade-in fade-in-1" style="font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 1rem;">Writing</h1>
+      <p class="fade-in fade-in-2" style="color: var(--color-warm-muted); font-size: 1.05rem; margin: 0 0 2.5rem; line-height: 1.7;">
+        Occasional essays on product, food, community, and the space between them.
+      </p>
+
+      <!-- Tag filter -->
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem;">
+        <button data-tag="all" class="tag-btn active" style="font-size: 0.8rem; font-weight: 500; padding: 0.35rem 0.9rem; border-radius: 20px; border: 1.5px solid var(--color-terracotta); background-color: var(--color-terracotta); color: white; cursor: pointer; transition: all 0.2s;">All</button>
+        {allTags.map(tag => (
+          <button data-tag={tag} class="tag-btn" style="font-size: 0.8rem; font-weight: 500; padding: 0.35rem 0.9rem; border-radius: 20px; border: 1.5px solid var(--color-sand); background-color: transparent; color: var(--color-warm-muted); cursor: pointer; transition: all 0.2s;">{tag}</button>
+        ))}
+      </div>
+
+      <!-- Posts list -->
+      <div style="display: flex; flex-direction: column; gap: 0;">
+        {sorted.map(post => (
+          <article
+            class="post-item"
+            data-tags={post.data.tags.join(',')}
+            style="border-bottom: 1px solid var(--color-sand); padding: 1.75rem 0;"
+          >
+            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+              <time style="font-size: 0.8rem; color: var(--color-warm-muted);" datetime={post.data.date.toISOString()}>
+                {formatDate(post.data.date)}
+              </time>
+              <span style="font-size: 0.75rem; color: var(--color-warm-muted);">·</span>
+              <span style="font-size: 0.8rem; color: var(--color-warm-muted);">{readingTime(post.body ?? '')} min read</span>
+              <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                {post.data.tags.map(tag => (
+                  <span style="font-size: 0.7rem; background-color: rgba(74, 124, 89, 0.12); color: var(--color-forest); padding: 0.15rem 0.5rem; border-radius: 20px; font-weight: 500;">{tag}</span>
+                ))}
+              </div>
+            </div>
+            <h2 style="font-size: 1.2rem; margin: 0 0 0.5rem; line-height: 1.3;">
+              <a href={`/writing/${post.id}`} class="post-title-link" style="color: var(--color-charcoal); text-decoration: none; transition: color 0.2s;">
+                {post.data.title}
+              </a>
+            </h2>
+            <p style="color: var(--color-warm-muted); font-size: 0.9rem; margin: 0; line-height: 1.6;">
+              {post.data.excerpt || post.data.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .post-title-link:hover { color: var(--color-terracotta) !important; }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const items = document.querySelectorAll<HTMLElement>('.post-item');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag ?? 'all';
+      buttons.forEach(b => {
+        const active = b === btn;
+        b.classList.toggle('active', active);
+        b.style.backgroundColor = active ? 'var(--color-terracotta)' : 'transparent';
+        b.style.borderColor = active ? 'var(--color-terracotta)' : 'var(--color-sand)';
+        b.style.color = active ? 'white' : 'var(--color-warm-muted)';
+      });
+      items.forEach(item => {
+        const tags = item.dataset.tags?.split(',') ?? [];
+        item.style.display = (tag === 'all' || tags.includes(tag)) ? 'block' : 'none';
+      });
+    });
+  });
+</script>
