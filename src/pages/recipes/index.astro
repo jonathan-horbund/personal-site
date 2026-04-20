@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const allRecipes = await getCollection('recipes');
 const sorted = allRecipes.sort((a, b) => a.data.title.localeCompare(b.data.title));
 
@@ -44,7 +45,7 @@ const difficultyColor: Record<string, string> = {
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem;" id="recipes-grid">
         {sorted.map(recipe => (
           <a
-            href={`/recipes/${recipe.id}`}
+            href={`${base}/recipes/${recipe.id}`}
             class="recipe-card card-hover"
             data-category={recipe.data.category}
             data-difficulty={recipe.data.difficulty}

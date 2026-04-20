@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const allWork = await getCollection('work');
 const sorted = allWork.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
@@ -59,7 +60,7 @@ const allTags = [...new Set(sorted.flatMap(w => w.data.tags))].sort();
               <p style="font-size: 0.8rem; color: var(--color-terracotta); font-weight: 500; margin: 0 0 0.75rem;">{item.data.role} {item.data.timeline ? `· ${item.data.timeline}` : ''}</p>
             )}
             <p style="color: var(--color-warm-muted); font-size: 0.9rem; margin: 0 0 1.5rem; flex: 1; line-height: 1.6;">{item.data.description}</p>
-            <a href={`/work/${item.id}`} style="font-size: 0.875rem; font-weight: 600; color: var(--color-terracotta); text-decoration: none;">
+            <a href={`${base}/work/${item.id}`} style="font-size: 0.875rem; font-weight: 600; color: var(--color-terracotta); text-decoration: none;">
               Read case study →
             </a>
           </article>

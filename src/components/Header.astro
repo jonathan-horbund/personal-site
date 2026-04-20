@@ -1,17 +1,19 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const navLinks = [
-  { href: '/work', label: 'Work' },
-  { href: '/writing', label: 'Writing' },
-  { href: '/recipes', label: 'Recipes' },
-  { href: '/bookshelf', label: 'Bookshelf' },
-  { href: '/volunteering', label: 'Volunteering' },
-  { href: '/about', label: 'About' },
+  { href: `${base}/work`, label: 'Work' },
+  { href: `${base}/writing`, label: 'Writing' },
+  { href: `${base}/recipes`, label: 'Recipes' },
+  { href: `${base}/bookshelf`, label: 'Bookshelf' },
+  { href: `${base}/volunteering`, label: 'Volunteering' },
+  { href: `${base}/about`, label: 'About' },
 ];
 
 const currentPath = Astro.url.pathname;
 
 function isActive(href: string) {
-  if (href === '/') return currentPath === '/';
+  if (href === base) return currentPath === base || currentPath === base.replace(/\/$/, '');
   return currentPath.startsWith(href);
 }
 ---
@@ -21,7 +23,7 @@ function isActive(href: string) {
     <div style="display: flex; align-items: center; justify-content: space-between; height: 4rem;">
       <!-- Logo / Name -->
       <a
-        href="/"
+        href={base}
         style="font-family: 'Playfair Display', serif; font-size: 1.125rem; font-weight: 600; color: var(--color-charcoal); text-decoration: none;"
       >
         Jonathan Horbund

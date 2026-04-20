@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const allWork = await getCollection('work');
 const featuredWork = allWork
   .filter(w => w.data.featured)
@@ -36,10 +37,10 @@ function formatDate(date: Date) {
             PM at Capital One. Volunteer cook. Believer in products and people.
           </p>
           <div class="fade-in fade-in-4" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="/work" class="btn-primary">
+            <a href={`${base}/work`} class="btn-primary">
               See my work
             </a>
-            <a href="/about" class="btn-secondary">
+            <a href={`${base}/about`} class="btn-secondary">
               Learn more
             </a>
           </div>
@@ -66,7 +67,7 @@ function formatDate(date: Date) {
     <div class="page-width">
       <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <h2 style="font-size: 2rem; margin: 0;">Work</h2>
-        <a href="/work" style="font-size: 0.9rem; color: var(--color-terracotta); font-weight: 500;">View all →</a>
+        <a href={`${base}/work`} style="font-size: 0.9rem; color: var(--color-terracotta); font-weight: 500;">View all →</a>
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
         {featuredWork.map((item) => (
@@ -83,7 +84,7 @@ function formatDate(date: Date) {
             </div>
             <h3 style="font-size: 1.2rem; margin: 0 0 0.75rem; line-height: 1.3;">{item.data.title}</h3>
             <p style="color: var(--color-warm-muted); font-size: 0.9rem; margin: 0 0 1.5rem; flex: 1; line-height: 1.6;">{item.data.description}</p>
-            <a href={`/work/${item.id}`} style="font-size: 0.875rem; font-weight: 500; color: var(--color-terracotta); text-decoration: none;">
+            <a href={`${base}/work/${item.id}`} style="font-size: 0.875rem; font-weight: 500; color: var(--color-terracotta); text-decoration: none;">
               Read more →
             </a>
           </article>
@@ -100,9 +101,9 @@ function formatDate(date: Date) {
       </p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
         {[
-          { href: '/recipes', icon: 'R', label: 'Recipes', desc: 'What I cook when the week feels hard or joyful.' },
-          { href: '/bookshelf', icon: 'B', label: 'Bookshelf', desc: 'What I am reading, finished, and won\'t stop recommending.' },
-          { href: '/volunteering', icon: 'V', label: 'Volunteering', desc: 'Kitchen volunteer work and the causes I show up for.' },
+          { href: `${base}/recipes`, icon: 'R', label: 'Recipes', desc: 'What I cook when the week feels hard or joyful.' },
+          { href: `${base}/bookshelf`, icon: 'B', label: 'Bookshelf', desc: 'What I am reading, finished, and won\'t stop recommending.' },
+          { href: `${base}/volunteering`, icon: 'V', label: 'Volunteering', desc: 'Kitchen volunteer work and the causes I show up for.' },
         ].map((tile) => (
           <a
             href={tile.href}
@@ -123,7 +124,7 @@ function formatDate(date: Date) {
     <div class="page-width">
       <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <h2 style="font-size: 2rem; margin: 0;">Writing</h2>
-        <a href="/writing" style="font-size: 0.9rem; color: var(--color-terracotta); font-weight: 500;">All posts →</a>
+        <a href={`${base}/writing`} style="font-size: 0.9rem; color: var(--color-terracotta); font-weight: 500;">All posts →</a>
       </div>
       <div style="display: flex; flex-direction: column; gap: 1.5rem;">
         {latestWriting.map((post) => (
@@ -141,7 +142,7 @@ function formatDate(date: Date) {
               </div>
             </div>
             <h3 style="font-size: 1.15rem; margin: 0 0 0.5rem;">
-              <a href={`/writing/${post.id}`} class="post-link" style="color: var(--color-charcoal); text-decoration: none;">
+              <a href={`${base}/writing/${post.id}`} class="post-link" style="color: var(--color-charcoal); text-decoration: none;">
                 {post.data.title}
               </a>
             </h3>

@@ -10,6 +10,7 @@ export async function getStaticPaths() {
   }));
 }
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 
@@ -29,7 +30,7 @@ function formatDate(date: Date) {
     <!-- Header -->
     <header style="background-color: white; border-bottom: 1px solid var(--color-sand); padding: 3rem 1.5rem 2.5rem;">
       <div class="content-width">
-        <a href="/work" style="font-size: 0.85rem; color: var(--color-warm-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1.5rem; transition: color 0.2s;" class="back-link">
+        <a href={`${base}/work`} style="font-size: 0.85rem; color: var(--color-warm-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1.5rem; transition: color 0.2s;" class="back-link">
           ← Back to Work
         </a>
         <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
@@ -70,7 +71,7 @@ function formatDate(date: Date) {
       <div class="page-width" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
         <div>
           {prev && (
-            <a href={`/work/${prev.id}`} style="display: block; text-decoration: none; padding: 1rem; border-radius: 8px; border: 1px solid var(--color-sand); transition: border-color 0.2s;" class="nav-card">
+            <a href={`${base}/work/${prev.id}`} style="display: block; text-decoration: none; padding: 1rem; border-radius: 8px; border: 1px solid var(--color-sand); transition: border-color 0.2s;" class="nav-card">
               <p style="font-size: 0.75rem; color: var(--color-warm-muted); margin: 0 0 0.25rem;">← Previous</p>
               <p style="font-size: 0.9rem; font-weight: 600; color: var(--color-charcoal); margin: 0; line-height: 1.3;">{prev.data.title}</p>
             </a>
@@ -78,7 +79,7 @@ function formatDate(date: Date) {
         </div>
         <div style="text-align: right;">
           {next && (
-            <a href={`/work/${next.id}`} style="display: block; text-decoration: none; padding: 1rem; border-radius: 8px; border: 1px solid var(--color-sand); transition: border-color 0.2s;" class="nav-card">
+            <a href={`${base}/work/${next.id}`} style="display: block; text-decoration: none; padding: 1rem; border-radius: 8px; border: 1px solid var(--color-sand); transition: border-color 0.2s;" class="nav-card">
               <p style="font-size: 0.75rem; color: var(--color-warm-muted); margin: 0 0 0.25rem;">Next →</p>
               <p style="font-size: 0.9rem; font-weight: 600; color: var(--color-charcoal); margin: 0; line-height: 1.3;">{next.data.title}</p>
             </a>
