@@ -72,12 +72,28 @@
     "yearRead": 2023
   },
   {
+    "title": "Zero to One",
+    "author": "Peter Thiel",
+    "shelf": "Product & Strategy",
+    "emoji": "🚀",
+    "color": "c10",
+    "yearRead": 2022
+  },
+  {
     "title": "Weapons of Math Destruction",
     "author": "Cathy O'Neil",
     "shelf": "Ideas & Society",
     "emoji": "⚠️",
     "color": "c12",
     "yearRead": 2023
+  },
+  {
+    "title": "Invisible Women",
+    "author": "Caroline Criado Perez",
+    "shelf": "Ideas & Society",
+    "emoji": "👁️",
+    "color": "c6",
+    "yearRead": 2024
   },
   {
     "title": "Algospeak",
