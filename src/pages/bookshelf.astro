@@ -3,10 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import booksData from '../data/books.json';
 
 const shelves = [
-  { key: 'On My Nightstand', icon: '🌙', nightstand: true },
-  { key: 'Food & Kitchen',   icon: '🍽️', nightstand: false },
+  { key: 'On My Nightstand',  icon: '🌙', nightstand: true },
+  { key: 'Food & Kitchen',    icon: '🍽️', nightstand: false },
   { key: 'Product & Strategy', icon: '📦', nightstand: false },
-  { key: 'Leadership & People', icon: '👥', nightstand: false },
+  { key: 'Ideas & Society',   icon: '💭', nightstand: false },
+  { key: 'Fiction',           icon: '📚', nightstand: false },
 ];
 
 const booksByShelf = new Map(

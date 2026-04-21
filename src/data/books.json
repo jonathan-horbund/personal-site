@@ -1,35 +1,27 @@
 [
   {
-    "title": "The Omnivore's Dilemma",
-    "author": "Michael Pollan",
+    "title": "1984",
+    "author": "George Orwell",
     "shelf": "On My Nightstand",
-    "emoji": "🌿",
-    "color": "c6",
+    "emoji": "📖",
+    "color": "c7",
     "yearRead": null
   },
   {
-    "title": "Working Backwards",
-    "author": "Colin Bryar & Bill Carr",
+    "title": "The Body Keeps the Score",
+    "author": "Bessel van der Kolk",
     "shelf": "On My Nightstand",
-    "emoji": "🧩",
+    "emoji": "🧠",
     "color": "c11",
     "yearRead": null
   },
   {
-    "title": "Kitchen Confidential",
-    "author": "Anthony Bourdain",
-    "shelf": "Food & Kitchen",
-    "emoji": "🍽️",
+    "title": "Red Rising",
+    "author": "Pierce Brown",
+    "shelf": "On My Nightstand",
+    "emoji": "🔴",
     "color": "c2",
-    "yearRead": 2022
-  },
-  {
-    "title": "Unreasonable Hospitality",
-    "author": "Will Guidara",
-    "shelf": "Food & Kitchen",
-    "emoji": "🌍",
-    "color": "c4",
-    "yearRead": 2023
+    "yearRead": null
   },
   {
     "title": "Salt Fat Acid Heat",
@@ -40,20 +32,12 @@
     "yearRead": 2023
   },
   {
-    "title": "Heat",
-    "author": "Bill Buford",
+    "title": "Crying in H Mart",
+    "author": "Michelle Zauner",
     "shelf": "Food & Kitchen",
-    "emoji": "🔥",
-    "color": "c7",
-    "yearRead": 2022
-  },
-  {
-    "title": "The Art of Fermentation",
-    "author": "Sandor Katz",
-    "shelf": "Food & Kitchen",
-    "emoji": "🫙",
-    "color": "c12",
-    "yearRead": 2024
+    "emoji": "🥢",
+    "color": "c6",
+    "yearRead": 2023
   },
   {
     "title": "Inspired",
@@ -64,51 +48,59 @@
     "yearRead": 2021
   },
   {
-    "title": "Continuous Discovery Habits",
-    "author": "Teresa Torres",
+    "title": "Anatomy of the Swipe",
+    "author": "Ahmed Siddiqui",
     "shelf": "Product & Strategy",
-    "emoji": "📊",
-    "color": "c1",
-    "yearRead": 2023
-  },
-  {
-    "title": "The Mom Test",
-    "author": "Rob Fitzpatrick",
-    "shelf": "Product & Strategy",
-    "emoji": "📖",
+    "emoji": "💳",
     "color": "c8",
-    "yearRead": 2022
-  },
-  {
-    "title": "Sprint",
-    "author": "Jake Knapp",
-    "shelf": "Product & Strategy",
-    "emoji": "⚡",
-    "color": "c5",
     "yearRead": 2024
   },
   {
-    "title": "Thinking, Fast and Slow",
-    "author": "Daniel Kahneman",
-    "shelf": "Leadership & People",
-    "emoji": "🧠",
-    "color": "c5",
+    "title": "The Design of Everyday Things",
+    "author": "Don Norman",
+    "shelf": "Product & Strategy",
+    "emoji": "🚪",
+    "color": "c1",
     "yearRead": 2022
   },
   {
-    "title": "Turn the Ship Around!",
-    "author": "L. David Marquet",
-    "shelf": "Leadership & People",
-    "emoji": "👥",
-    "color": "c10",
+    "title": "Hooked",
+    "author": "Nir Eyal",
+    "shelf": "Product & Strategy",
+    "emoji": "🪝",
+    "color": "c5",
     "yearRead": 2023
   },
   {
-    "title": "Multipliers",
-    "author": "Liz Wiseman",
-    "shelf": "Leadership & People",
-    "emoji": "🌟",
+    "title": "Weapons of Math Destruction",
+    "author": "Cathy O'Neil",
+    "shelf": "Ideas & Society",
+    "emoji": "⚠️",
+    "color": "c12",
+    "yearRead": 2023
+  },
+  {
+    "title": "Algospeak",
+    "author": "Adam Aleksic",
+    "shelf": "Ideas & Society",
+    "emoji": "🗣️",
     "color": "c4",
+    "yearRead": 2025
+  },
+  {
+    "title": "The Midnight Library",
+    "author": "Matt Haig",
+    "shelf": "Fiction",
+    "emoji": "🌙",
+    "color": "c10",
+    "yearRead": 2024
+  },
+  {
+    "title": "Artemis",
+    "author": "Andy Weir",
+    "shelf": "Fiction",
+    "emoji": "🌕",
+    "color": "c3",
     "yearRead": 2024
   }
 ]
