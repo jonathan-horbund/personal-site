@@ -1,108 +1,230 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import books from '../data/books.json';
+import booksData from '../data/books.json';
 
-const allTags = [...new Set(books.flatMap(b => b.tags))].sort();
-const allStatuses = [...new Set(books.map(b => b.status))];
+const shelves = [
+  { key: 'On My Nightstand', icon: '🌙', nightstand: true },
+  { key: 'Food & Kitchen',   icon: '🍽️', nightstand: false },
+  { key: 'Product & Strategy', icon: '📦', nightstand: false },
+  { key: 'Leadership & People', icon: '👥', nightstand: false },
+];
 
-const statusOrder = ['Currently Reading', 'Finished'];
-const sortedStatuses = allStatuses.sort((a, b) => statusOrder.indexOf(a) - statusOrder.indexOf(b));
-
-const statusStyle: Record<string, { bg: string; color: string }> = {
-  'Currently Reading': { bg: 'rgba(201, 125, 78, 0.12)', color: 'var(--color-terracotta)' },
-  'Finished': { bg: 'rgba(74, 124, 89, 0.1)', color: 'var(--color-forest)' },
-  'Recommended': { bg: 'rgba(107, 90, 74, 0.1)', color: 'var(--color-warm-muted)' },
-};
+const booksByShelf = new Map(
+  shelves.map(s => [s.key, booksData.filter(b => b.shelf === s.key)])
+);
 ---
 
-<Layout title="Bookshelf" description="What Jonathan Horbund is reading, has finished, and won't stop recommending.">
-  <section style="padding: 4rem 1.5rem 5rem;">
-    <div class="page-width" style="max-width: 860px; margin: 0 auto;">
-      <h1 class="fade-in fade-in-1" style="font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 1rem;">Bookshelf</h1>
-      <p class="fade-in fade-in-2" style="color: var(--color-warm-muted); font-size: 1.05rem; margin: 0 0 2.5rem; line-height: 1.7; max-width: 540px;">
-        Books that have shaped how I think about products, food, people, and the world. Each note is what I'd say if you asked me to sell you on it.
-      </p>
+<Layout title="Bookshelf" description="What I'm reading, have finished, and won't stop recommending.">
+  <div class="bs-wrap">
 
-      <!-- Filters -->
-      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; align-items: center;">
-        <span style="font-size: 0.8rem; color: var(--color-warm-muted); font-weight: 500; margin-right: 0.25rem;">Filter:</span>
-        <button data-filter="all" class="shelf-btn active" style="font-size: 0.78rem; font-weight: 500; padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--color-terracotta); background: var(--color-terracotta); color: white; cursor: pointer; transition: all 0.2s;">All</button>
-        {sortedStatuses.map(status => (
-          <button data-filter={status} class="shelf-btn" style="font-size: 0.78rem; font-weight: 500; padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--color-sand); background: transparent; color: var(--color-warm-muted); cursor: pointer; transition: all 0.2s;">{status}</button>
-        ))}
-        <span style="width: 1px; height: 18px; background: var(--color-sand); margin: 0 0.25rem;"></span>
-        {allTags.map(tag => (
-          <button data-filter={tag} class="shelf-btn" style="font-size: 0.78rem; font-weight: 500; padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--color-sand); background: transparent; color: var(--color-warm-muted); cursor: pointer; transition: all 0.2s;">{tag}</button>
-        ))}
-      </div>
+    <header class="bs-header">
+      <h1 class="bs-display">Bookshelf</h1>
+      <p class="bs-sub">Books that shaped how I think about products, food, people, and the world.</p>
+    </header>
 
-      <!-- Book list -->
-      <div style="display: flex; flex-direction: column; gap: 1px;" id="books-list">
-        {books.map(book => (
-          <div
-            class="book-item"
-            data-tags={book.tags.join(',')}
-            data-status={book.status}
-            style="background-color: white; border-radius: 8px; padding: 1.5rem 1.75rem; margin-bottom: 0.75rem; border: 1px solid var(--color-sand); transition: box-shadow 0.2s;"
-          >
-            <div style="display: flex; align-items: flex-start; gap: 1.25rem; flex-wrap: wrap;">
-              <!-- Spine placeholder -->
-              <div style="width: 40px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; padding-top: 2px;">
-                <div style="width: 36px; height: 52px; background: linear-gradient(135deg, var(--color-sand) 0%, var(--color-terracotta) 100%); border-radius: 3px; opacity: 0.6;"></div>
-              </div>
-              <!-- Book details -->
-              <div style="flex: 1; min-width: 200px;">
-                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
-                  <div>
-                    <h2 style="font-size: 1.05rem; margin: 0 0 0.2rem; line-height: 1.3;">{book.title}</h2>
-                    <p style="font-size: 0.85rem; color: var(--color-warm-muted); margin: 0;">{book.author} · {book.yearRead}</p>
-                  </div>
-                  <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; flex-shrink: 0;">
-                    <span style={`font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 20px; background-color: ${(statusStyle[book.status] ?? statusStyle['Finished']).bg}; color: ${(statusStyle[book.status] ?? statusStyle['Finished']).color};`}>
-                      {book.status}
-                    </span>
-                    <div style="display: flex; gap: 0.3rem; flex-wrap: wrap; justify-content: flex-end;">
-                      {book.tags.map(tag => (
-                        <span style="font-size: 0.68rem; color: var(--color-warm-muted); background-color: var(--color-cream); border: 1px solid var(--color-sand); padding: 0.1rem 0.4rem; border-radius: 20px;">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--color-charcoal); margin: 0.75rem 0 0; line-height: 1.65; font-style: italic;">"{book.note}"</p>
-              </div>
+    {shelves.map(shelf => {
+      const shelfBooks = booksByShelf.get(shelf.key) ?? [];
+      return (
+        <section class={`bs-section${shelf.nightstand ? ' is-nightstand' : ''}`}>
+          <div class="bs-inner">
+            <div class="bs-row-head">
+              <span class="bs-lbl">{shelf.icon}&nbsp;&nbsp;{shelf.key}</span>
+              <span class="bs-cnt">{shelfBooks.length}</span>
             </div>
+            <div class="bs-row">
+              {shelfBooks.map(book => (
+                <div class="bs-book">
+                  <div class={`bs-cover ${book.color}`}>
+                    <span class="bs-emoji">{book.emoji}</span>
+                  </div>
+                  <p class="bs-title">{book.title}</p>
+                  <p class="bs-author">{book.author}</p>
+                </div>
+              ))}
+            </div>
+            <div class={`bs-ledge${shelf.nightstand ? ' ledge-warm' : ''}`}></div>
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
+        </section>
+      );
+    })}
+
+  </div>
 </Layout>
 
-<script>
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.shelf-btn');
-  const items = document.querySelectorAll<HTMLElement>('.book-item');
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500&display=swap');
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter ?? 'all';
+  html:has(.bs-wrap),
+  html:has(.bs-wrap) body {
+    background-color: #18140f !important;
+  }
+</style>
 
-      buttons.forEach(b => {
-        const active = b === btn;
-        b.classList.toggle('active', active);
-        b.style.backgroundColor = active ? 'var(--color-terracotta)' : 'transparent';
-        b.style.borderColor = active ? 'var(--color-terracotta)' : 'var(--color-sand)';
-        b.style.color = active ? 'white' : 'var(--color-warm-muted)';
-      });
+<style>
+  .bs-wrap {
+    background-color: #18140f;
+    min-height: 60vh;
+    padding-bottom: 6rem;
+  }
 
-      items.forEach(item => {
-        if (filter === 'all') {
-          item.style.display = 'block';
-          return;
-        }
-        const tags = item.dataset.tags?.split(',') ?? [];
-        const status = item.dataset.status ?? '';
-        item.style.display = (tags.includes(filter) || status === filter) ? 'block' : 'none';
-      });
-    });
-  });
-</script>
+  /* ── Header ─────────────────────────────────────────── */
+  .bs-header {
+    padding: 4rem 2rem 3.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .bs-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    color: #ede0cc;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .bs-sub {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    color: #a09078;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── Shelf section ───────────────────────────────────── */
+  .bs-section {
+    margin-bottom: 3rem;
+  }
+
+  .bs-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .bs-row-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .bs-lbl {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: #e8c9a0;
+  }
+
+  .is-nightstand .bs-lbl {
+    color: #e8c9a0;
+  }
+
+  .bs-cnt {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    color: #5a4e3e;
+  }
+
+  /* ── Book row ────────────────────────────────────────── */
+  .bs-row {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #5a3e28 transparent;
+  }
+
+  .bs-row::-webkit-scrollbar { height: 4px; }
+  .bs-row::-webkit-scrollbar-track { background: transparent; }
+  .bs-row::-webkit-scrollbar-thumb { background: #5a3e28; border-radius: 2px; }
+
+  /* ── Book card ───────────────────────────────────────── */
+  .bs-book {
+    flex-shrink: 0;
+    width: 112px;
+  }
+
+  .bs-cover {
+    width: 112px;
+    aspect-ratio: 2 / 3;
+    border-radius: 3px 6px 6px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.6), inset -3px 0 8px rgba(0, 0, 0, 0.25);
+  }
+
+  .bs-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 7px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px 0 0 3px;
+  }
+
+  .bs-emoji {
+    font-size: 2rem;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bs-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: #ede0cc;
+    margin: 0.6rem 0 0.2rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bs-author {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: 0.62rem;
+    color: #a09078;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Wooden ledge ────────────────────────────────────── */
+  .bs-ledge {
+    height: 12px;
+    border-radius: 3px;
+    background: linear-gradient(to bottom, #6a4830 0%, #5a3e28 40%, #3a2818 100%);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.5);
+    margin-top: 0.5rem;
+  }
+
+  .bs-ledge.ledge-warm {
+    background: linear-gradient(to bottom, #7a5a38 0%, #6a4e30 40%, #4a3020 100%);
+  }
+
+  /* ── Cover color gradients (c1–c12) ─────────────────── */
+  .c1  { background: linear-gradient(160deg, #1e3d30, #3a6b4a); }
+  .c2  { background: linear-gradient(160deg, #7a2e1e, #b86840); }
+  .c3  { background: linear-gradient(160deg, #152438, #254d7a); }
+  .c4  { background: linear-gradient(160deg, #3a2c1e, #6a4c30); }
+  .c5  { background: linear-gradient(160deg, #30203c, #624478); }
+  .c6  { background: linear-gradient(160deg, #1e3020, #3e6848); }
+  .c7  { background: linear-gradient(160deg, #3c1818, #7a3030); }
+  .c8  { background: linear-gradient(160deg, #182e3c, #2e6080); }
+  .c9  { background: linear-gradient(160deg, #3a2e14, #786030); }
+  .c10 { background: linear-gradient(160deg, #1e3c2c, #3e6858); }
+  .c11 { background: linear-gradient(160deg, #2c1e3c, #544070); }
+  .c12 { background: linear-gradient(160deg, #3c2014, #785030); }
+</style>
