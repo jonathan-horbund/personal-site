@@ -1,11 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 interface Entry {
-  chapter: string;
+  num: string;
   category: string;
-  org: string;
   accent: 'terracotta' | 'forest';
+  photo?: string;
+  org: string;
   role: string;
   location: string;
   blurb: string;
@@ -14,37 +17,37 @@ interface Entry {
 
 const entries: Entry[] = [
   {
-    chapter: '01',
+    num: '01',
     category: 'Charitable · Food Security',
-    org: 'Rise Against Hunger',
     accent: 'terracotta',
+    org: 'Rise Against Hunger',
     role: 'Meal Packer',
     location: '📍 Atlanta · Washington D.C.',
     blurb: `Rise Against Hunger mobilizes volunteers to package meals — rice, soy, dehydrated vegetables, and vitamins — that ship to communities facing hunger worldwide. I've worked the assembly line in both Atlanta and D.C., and there's something grounding about spending an afternoon as a meal packer and walking away knowing <strong>10,000 bags are headed somewhere that genuinely needs them</strong>. The work is simple, physical, and oddly satisfying. The scale is not.`,
   },
   {
-    chapter: '02',
+    num: '02',
     category: 'Charitable · Campus Food Bank',
-    org: 'Klemis Kitchen',
     accent: 'terracotta',
+    org: 'Klemis Kitchen',
     role: 'Meal Packer',
     location: '📍 Georgia Tech, Atlanta',
     blurb: `Named after Tommy Klemis — a man who used to feed students who couldn't pay so they could keep studying. About <strong>10% of Georgia Tech students experience food insecurity</strong>, and 15% often prioritize work over academics just to afford food. I volunteered as a meal packer here, recovering and repackaging dining hall food so it reaches students instead of a dumpster. The origin story alone is reason enough to show up.`,
   },
   {
-    chapter: '03',
+    num: '03',
     category: 'Community · Communal Dining',
-    org: 'Studio Bumi',
     accent: 'forest',
+    org: 'Studio Bumi',
     role: 'Line Cook',
     location: '📍 Brooklyn, New York',
     blurb: `Bagus Ruswandi moved to New York from Jakarta and decided the city's epidemic of urban loneliness was worth fighting through food. Studio Bumi is built around underrepresented cuisines and the belief that <strong>strangers becoming friends is worth designing for</strong>. I volunteer back of house as a line cook at the "Just Dinner" events. Some of the most purposeful kitchen time I've had.`,
   },
   {
-    chapter: '04',
+    num: '04',
     category: 'Independent · Environment',
-    org: 'Park Cleanups',
     accent: 'forest',
+    org: 'Park Cleanups',
     role: 'Solo',
     location: '📍 New York City',
     blurb: `No organization, no team, no sign-up sheet. Just me, a trash grabber, and whatever park needs attention that weekend. A good reminder that not every contribution needs a nonprofit behind it.`,
@@ -57,204 +60,201 @@ const entries: Entry[] = [
   <div class="vol-page">
     <div class="vol-inner">
 
-      <header class="vol-header">
-        <span class="vol-eyebrow">Jonathan Horbund</span>
-        <h1 class="vol-title">Volunteering</h1>
-        <p class="vol-subtitle">Food has always been how I show up for people — in professional kitchens, community pantries, and parks that needed some attention.</p>
-      </header>
+      {entries.map((entry, i) => (
+        <>
+          <article class="vol-entry">
 
-      <div class="vol-cards">
-        {entries.map(entry => (
-          <article
-            class="vol-card"
-            style={`--vc-accent: var(${entry.accent === 'terracotta' ? '--color-terracotta' : '--color-forest'});`}
-          >
-            <div class="vol-card-top">
-              <div class="vol-left">
-                <span class="vol-chapter" aria-hidden="true">{entry.chapter}</span>
-                <div class="vol-meta">
-                  <span
-                    class="vol-category"
-                    style={`color: var(${entry.accent === 'terracotta' ? '--color-terracotta' : '--color-forest'});`}
-                  >
-                    {entry.category}
-                  </span>
-                  <h2 class="vol-org">{entry.org}</h2>
+            <p class="vol-num">{entry.num}</p>
+
+            <p class={`vol-cat ${entry.accent === 'terracotta' ? 'cat-terra' : 'cat-forest'}`}>
+              {entry.category}
+            </p>
+
+            <div class="vol-photo-area">
+              {entry.photo ? (
+                <img
+                  src={`${base}/images/volunteering/${entry.photo}`}
+                  alt={entry.org}
+                  class="vol-img"
+                />
+              ) : (
+                <div class="vol-placeholder">
+                  <span class="vol-placeholder-lbl">📷 Add a photo</span>
                 </div>
-              </div>
-              <div class="vol-badges">
-                <span class="vol-role-badge">{entry.role}</span>
-                <span class="vol-location-badge">{entry.location}</span>
-              </div>
+              )}
             </div>
 
-            <hr class="vol-divider" />
+            <div class="vol-pill-wrap">
+              <h2 class="vol-pill">{entry.org}</h2>
+            </div>
+
+            <div class="vol-tags">
+              <span class={`vol-tag vol-tag-role ${entry.accent === 'terracotta' ? 'tag-terra' : 'tag-forest'}`}>
+                {entry.role}
+              </span>
+              <span class="vol-tag vol-tag-loc">{entry.location}</span>
+            </div>
 
             <p class="vol-blurb" set:html={entry.blurb} />
 
             {entry.goal && (
               <p class="vol-goal">{entry.goal}</p>
             )}
+
           </article>
-        ))}
-      </div>
+
+          {i < entries.length - 1 && <hr class="vol-rule" />}
+        </>
+      ))}
 
     </div>
   </div>
 </Layout>
 
 <style>
-  /* ── Page shell ───────────────────────────── */
+  /* ── Page ──────────────────────────────────── */
   .vol-page {
     background-color: var(--color-cream);
-    padding: 4rem 1.5rem 6rem;
+    padding: 3.5rem 1.5rem 6rem;
   }
 
   .vol-inner {
-    max-width: 760px;
+    max-width: 680px;
     margin: 0 auto;
   }
 
-  /* ── Header ───────────────────────────────── */
-  .vol-header {
-    margin-bottom: 3rem;
-  }
-
-  .vol-eyebrow {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-warm-muted);
-    margin-bottom: 0.5rem;
-  }
-
-  .vol-title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
+  /* ── Chapter number ────────────────────────── */
+  .vol-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4.5rem, 14vw, 7rem);
+    font-weight: 900;
     color: var(--color-charcoal);
-    margin: 0 0 1rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0 0 -0.5rem;
+  }
+
+  /* ── Category label ────────────────────────── */
+  .vol-cat {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-warm-muted);
+    margin: 0 0 0.6rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .vol-cat::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    font-size: 0.9rem;
     line-height: 1.1;
   }
 
-  .vol-subtitle {
-    font-size: 1.05rem;
-    color: var(--color-warm-muted);
-    line-height: 1.75;
-    margin: 0;
-    max-width: 560px;
+  .cat-terra::before  { color: var(--color-terracotta); }
+  .cat-forest::before { color: var(--color-forest); }
+
+  /* ── Photo area ────────────────────────────── */
+  .vol-photo-area {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
   }
 
-  /* ── Card list ────────────────────────────── */
-  .vol-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  .vol-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  /* ── Card ─────────────────────────────────── */
-  .vol-card {
-    border-left: 4px solid var(--vc-accent);
-    border-radius: 12px;
-    background: #fff;
-    padding: 1.75rem 1.75rem 1.75rem 2rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-  }
-
-  .vol-card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-  }
-
-  /* Left: chapter number + meta */
-  .vol-left {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .vol-chapter {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-sand);
-    line-height: 1;
-    flex-shrink: 0;
-    width: 2.75rem;
-    user-select: none;
-  }
-
-  .vol-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    padding-top: 0.15rem;
-  }
-
-  .vol-category {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-  }
-
-  .vol-org {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--color-charcoal);
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  /* Right: badges */
-  .vol-badges {
+  .vol-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-sand);
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 12px,
+      rgba(0, 0, 0, 0.045) 12px,
+      rgba(0, 0, 0, 0.045) 13px
+    );
     display: flex;
     align-items: center;
+    justify-content: center;
+  }
+
+  .vol-placeholder-lbl {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--color-warm-muted);
+    border: 1.5px dashed var(--color-warm-muted);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    opacity: 0.55;
+  }
+
+  /* ── Org name pill ─────────────────────────── */
+  .vol-pill-wrap {
+    padding: 0 0.75rem;
+    margin-top: -1.6rem;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0.85rem;
+  }
+
+  .vol-pill {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4.5vw, 2rem);
+    font-weight: 900;
+    color: var(--color-charcoal);
+    background: #ffffff;
+    display: inline;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── Tags ──────────────────────────────────── */
+  .vol-tags {
+    display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    justify-content: flex-end;
-    flex-shrink: 0;
+    padding: 0 0.75rem;
+    margin-bottom: 0.9rem;
   }
 
-  .vol-role-badge {
-    font-size: 0.72rem;
+  .vol-tag {
+    font-size: 0.67rem;
     font-weight: 500;
-    background-color: var(--color-forest);
-    color: white;
-    padding: 0.25rem 0.625rem;
-    border-radius: 20px;
+    padding: 0.22rem 0.7rem;
+    border-radius: 100px;
+    border: 1.5px solid transparent;
     white-space: nowrap;
   }
 
-  .vol-location-badge {
-    font-size: 0.72rem;
-    font-weight: 400;
-    color: var(--color-warm-muted);
-    border: 1px solid var(--color-sand);
-    padding: 0.25rem 0.625rem;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
+  .vol-tag-role.tag-terra   { background-color: var(--color-terracotta); border-color: var(--color-terracotta); color: white; }
+  .vol-tag-role.tag-forest  { background-color: var(--color-forest);     border-color: var(--color-forest);     color: white; }
+  .vol-tag-loc              { background: white; border-color: var(--color-sand); color: var(--color-warm-muted); }
 
-  /* ── Divider ──────────────────────────────── */
-  .vol-divider {
-    border: none;
-    border-top: 1px solid var(--color-sand);
-    margin: 0 0 1.25rem;
-  }
-
-  /* ── Blurb ────────────────────────────────── */
+  /* ── Blurb ─────────────────────────────────── */
   .vol-blurb {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
+    font-weight: 300;
     color: var(--color-warm-muted);
-    line-height: 1.75;
+    line-height: 1.8;
+    max-width: 560px;
     margin: 0;
+    padding: 0 0.75rem;
   }
 
   .vol-blurb :global(strong) {
@@ -262,22 +262,23 @@ const entries: Entry[] = [
     font-weight: 600;
   }
 
-  /* ── Goal line ────────────────────────────── */
+  /* ── Goal pill ─────────────────────────────── */
   .vol-goal {
-    margin: 1rem 0 0;
-    font-size: 0.875rem;
+    display: inline-block;
+    font-size: 0.78rem;
     font-weight: 500;
     color: var(--color-forest);
+    background-color: rgba(74, 124, 89, 0.1);
+    border: 1.5px solid rgba(74, 124, 89, 0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    margin: 0.85rem 0 0 0.75rem;
   }
 
-  /* ── Mobile ───────────────────────────────── */
-  @media (max-width: 520px) {
-    .vol-card-top {
-      flex-direction: column;
-    }
-
-    .vol-badges {
-      justify-content: flex-start;
-    }
+  /* ── Entry separator ───────────────────────── */
+  .vol-rule {
+    border: none;
+    border-top: 1px solid rgba(44, 44, 44, 0.15);
+    margin: 3rem 0;
   }
 </style>
